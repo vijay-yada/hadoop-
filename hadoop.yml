@@ -1,0 +1,28 @@
+- hosts: all
+  tasks:
+  - template:
+     src: "core-site.xml"
+     dest: "/etc/hadoop"     
+- hosts: 192.168.29.103
+  vars:
+    - x: "/namen"
+  tasks:
+  - file:
+     state: directory
+     path: "{{ x }}"
+  - template:
+     src: "hdfs-site.xml"
+     dest: "/etc/hadoop"  
+  - command: "hadoop-daemon.sh start namenode"    
+- hosts: 192.168.29.104
+  vars:
+    - x: "/dn"    
+  tasks:
+  - file: 
+     state: directory
+     path: "{{ x }}"    
+  - template:
+     src: "hdfs-site.xml"
+     dest: "/etc/hadoop"
+  - command: "hadoop-daemon.sh start datanode"   
+
